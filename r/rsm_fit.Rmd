@@ -1,0 +1,122 @@
+---
+title: "RSM Fit"
+output: html_document
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load data
+
+```{r load-data}
+library(rsm)
+
+# Resolve paths from the repository root so this knits on any machine, not just the one
+# it was written on.
+repo <- rprojroot::find_root(rprojroot::has_file("requirements.txt"))
+design <- read.csv(file.path(repo, "results", "phase3_doe", "design_matrix.csv"))
+head(design)
+str(design)
+```
+
+Fix the strings in `reached_dryness` and `reached_practical_end` to boolean.
+
+```{r fix-types}
+design$reached_dryness <- as.logical(design$reached_dryness)
+design$reached_practical_end <- as.logical(design$reached_practical_end)
+```
+
+## Responses: time, peak_rate, and conversion as a constraint (>0.99)
+
+Mention how the coded are connected to the not coded, and clean the column
+with the coded values from Python.
+
+```{r coded-data}
+design_clean <- design[, !(names(design) %in% c("x1", "x2", "x3"))]
+
+design_coded <- coded.data(design_clean,
+                            x1 ~ (Ti - 21) / 6,
+                            x2 ~ (Sub0 - 265) / 15,
+                            x3 ~ (N0 - 240) / 100
+)
+```
+
+## Fit for peak rate
+
+We fit a second-order model that makes 9 linear (x1, x2, x3), 3 interactions
+(x1x2, x1x3, x2x3), 3 pure quadratic (x1², x2², x3²).
+
+```{r model-peak}
+model_peak <- rsm(peak_rate ~ SO(x1, x2, x3), data = design_coded)
+summary(model_peak)
+```
+
+Contour / perspective plots.
+
+```{r contour-peak}
+par(mfrow = c(1, 3))
+contour(model_peak, ~x1 + x2 + x3, image = TRUE)
+```
+
+It freezes at Substrate=250, we took only x1 and x3 because these
+interactions are important. We add the real points.
+
+```{r contour-peak-slice}
+contour(model_peak, x1 ~ x3, at = list(x2 = -1), image = TRUE)
+points(design_coded$x1, design_coded$x3, pch = 19)
+```
+
+Persp plot 3d.
+
+```{r persp-peak}
+persp(model_peak, x1 ~ x3, at = list(x2 = -1), col = terrain.colors(50), contours = "colors")
+```
+
+## Fit for time
+
+```{r model-time}
+model_time <- rsm(time ~ SO(x1, x2, x3), data = design_coded)
+summary(model_time)
+```
+
+Contour / perspective plots.
+
+```{r contour-time}
+par(mfrow = c(1, 3))
+contour(model_time, ~x1 + x2 + x3, image = TRUE)
+```
+
+## Fit for conversion
+
+```{r model-conversion}
+model_conversion <- rsm(conversion ~ SO(x1, x2, x3), data = design_coded)
+summary(model_conversion)
+```
+
+Contour / perspective plots.
+
+```{r contour-conversion}
+par(mfrow = c(1, 3))
+contour(model_conversion, ~x1 + x2 + x3, image = TRUE)
+```
+
+## Fit for ethanol
+
+```{r model-ethanol}
+model_ethanol <- rsm(ethanol ~ SO(x1, x2, x3), data = design_coded)
+summary(model_ethanol)
+```
+
+Contour / perspective plots.
+
+```{r contour-ethanol}
+par(mfrow = c(1, 3))
+contour(model_ethanol, ~x1 + x2 + x3, image = TRUE)
+```
+
+Because peak_rate and time have no internal optimum (stationary points out of range), the
+optimum will be found on the border of the cube. In optim() we use method='L-BFGS-B' with
+explicitly lower=c(-1,-1,-1) , upper=c(1,1,1) — otherwise the optimizer will suggest combinations
+outside the experimental range (like −85°C).
