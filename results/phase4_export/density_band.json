@@ -1,0 +1,20 @@
+{
+  "coef": {
+    "alcohol": -0.0012624238669499783,
+    "const": 1.0050906019195018,
+    "residual sugar": 0.00034964317789645686
+  },
+  "empirical_exceedance": 0.00946969696969697,
+  "k": 3.0,
+  "n_train": 3168,
+  "predictors": [
+    "alcohol",
+    "residual sugar"
+  ],
+  "r2": 0.9089378570808179,
+  "rationale": "restores the density-composition law relaxed by LedoitWolf shrinkage",
+  "resid_skew": 0.926533469707871,
+  "rule": "|density - (const + b_alcohol*alcohol + b_sugar*residual_sugar)| <= k*sigma",
+  "sigma": 0.000849945237809462,
+  "target": "density"
+}

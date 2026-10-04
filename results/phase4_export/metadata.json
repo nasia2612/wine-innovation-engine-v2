@@ -1,0 +1,28 @@
+{
+  "exported_at": "2026-10-04T10:56:59+00:00",
+  "source_run_id": "25bd827ce16d409480c09b0dd37626ea",
+  "source_model_uri": "models:/wine_quality_rf/1",
+  "model_class": "RandomForestRegressor",
+  "n_estimators": 300,
+  "feature_order": [
+    "fixed acidity",
+    "volatile acidity",
+    "citric acid",
+    "residual sugar",
+    "chlorides",
+    "free sulfur dioxide",
+    "total sulfur dioxide",
+    "density",
+    "pH",
+    "sulphates",
+    "alcohol"
+  ],
+  "sklearn_version": "1.9.0",
+  "joblib_version": "1.5.3",
+  "python_version": "3.12.3",
+  "source_run_metrics": {
+    "max_abs_delta_vs_scaled": 0.08027777777777878,
+    "test_r2": 0.3982251024357365,
+    "test_rmse": 0.6909023122603914
+  }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="248" height="40" viewBox="0 0 248 40" role="img" aria-label="Wine Innovation Engine">
+  <g fill="none" stroke="#8C2F39" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 7h18v7.5a9 9 0 0 1-18 0Z"/>
+    <path d="M18 23.5V32"/>
+    <path d="M11.5 32h13"/>
+  </g>
+  <path d="M9 11.6h18v2.9a9 9 0 0 1-18 0Z" fill="#8C2F39" opacity="0.18"/>
+  <text x="40" y="18.5" font-family="Inter, system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="14.5" font-weight="650" letter-spacing="-0.2" fill="#8C2F39">Wine Innovation</text>
+  <text x="40" y="33" font-family="Inter, system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="14.5" font-weight="650" letter-spacing="-0.2" fill="#8C2F39">Engine</text>
+</svg>

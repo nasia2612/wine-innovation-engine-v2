@@ -1,0 +1,63 @@
+{
+  "bounds": {
+    "alcohol": [
+      8.7,
+      13.4
+    ],
+    "chlorides": [
+      0.02,
+      0.17032999999999993
+    ],
+    "citric acid": [
+      0.04670000000000002,
+      0.74
+    ],
+    "density": [
+      0.9888134000000001,
+      1.0002066
+    ],
+    "fixed acidity": [
+      5.0,
+      9.2
+    ],
+    "free sulfur dioxide": [
+      5.670000000000002,
+      81.0
+    ],
+    "pH": [
+      2.89,
+      3.6
+    ],
+    "residual sugar": [
+      0.9,
+      18.75
+    ],
+    "sulphates": [
+      0.29,
+      0.83
+    ],
+    "total sulfur dioxide": [
+      50.0,
+      243.0
+    ],
+    "volatile acidity": [
+      0.12,
+      0.6432999999999993
+    ]
+  },
+  "feature_order": [
+    "fixed acidity",
+    "volatile acidity",
+    "citric acid",
+    "residual sugar",
+    "chlorides",
+    "free sulfur dioxide",
+    "total sulfur dioxide",
+    "density",
+    "pH",
+    "sulphates",
+    "alcohol"
+  ],
+  "n_train": 3168,
+  "rule": "1st\u201399th percentile of training set"
+}

@@ -1,0 +1,89 @@
+# Wine Innovation Engine: presentation theme.
+#
+# Colours are set here rather than with injected CSS so they apply consistently to
+# every widget and survive Streamlit upgrades. The chart palettes are the validated
+# categorical / sequential / diverging sets, so charts inherit them and no page needs
+# to name a colour scheme of its own.
+
+[theme]
+base = "light"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+headingFont = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap"
+codeFont = "'JetBrains Mono':https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+baseFontSize = 15
+baseFontWeight = 400
+codeFontSize = "0.85rem"
+headingFontSizes = ["32px", "24px", "19px", "16px", "14px", "13px"]
+headingFontWeights = [600, 600, 600, 600, 500, 500]
+linkUnderline = false
+baseRadius = "8px"
+buttonRadius = "8px"
+showWidgetBorder = true
+showSidebarBorder = true
+
+[theme.light]
+primaryColor = "#8C2F39"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F6F5F3"
+textColor = "#1C1E21"
+linkColor = "#8C2F39"
+borderColor = "#E3E0DA"
+codeBackgroundColor = "#F6F5F3"
+codeTextColor = "#1C1E21"
+dataframeBorderColor = "#E3E0DA"
+dataframeHeaderBackgroundColor = "#F2F0EC"
+
+greenColor = "#0CA30C"
+greenTextColor = "#006300"
+redColor = "#D03B3B"
+redTextColor = "#A42020"
+orangeColor = "#EC835A"
+orangeTextColor = "#9A4318"
+yellowColor = "#FAB219"
+blueColor = "#2A78D6"
+violetColor = "#4A3AA7"
+grayColor = "#5B6269"
+
+chartCategoricalColors = ["#2A78D6", "#EB6834", "#1BAF7A", "#EDA100", "#E87BA4", "#008300", "#4A3AA7", "#E34948"]
+chartSequentialColors = ["#CDE2FB", "#B7D3F6", "#9EC5F4", "#86B6EF", "#6DA7EC", "#5598E7", "#3987E5", "#256ABF", "#184F95", "#0D366B"]
+chartDivergingColors = ["#0D366B", "#1C5CAB", "#3987E5", "#86B6EF", "#CDE2FB", "#FAD6D2", "#EA9A93", "#D75852", "#9E3431", "#621B1A"]
+
+[theme.light.sidebar]
+backgroundColor = "#F6F5F3"
+secondaryBackgroundColor = "#EDEBE6"
+codeBackgroundColor = "#EDEBE6"
+textColor = "#1C1E21"
+borderColor = "#E3E0DA"
+primaryColor = "#8C2F39"
+
+[theme.dark]
+primaryColor = "#C0506A"
+backgroundColor = "#1A1A19"
+secondaryBackgroundColor = "#242422"
+textColor = "#E9E8E4"
+linkColor = "#E2899B"
+borderColor = "#35352F"
+codeBackgroundColor = "#242422"
+codeTextColor = "#E9E8E4"
+dataframeBorderColor = "#35352F"
+dataframeHeaderBackgroundColor = "#2B2B28"
+
+greenColor = "#0CA30C"
+redColor = "#E66767"
+orangeColor = "#EC835A"
+yellowColor = "#FAB219"
+blueColor = "#3987E5"
+violetColor = "#9085E9"
+grayColor = "#A6A5A0"
+
+chartCategoricalColors = ["#3987E5", "#D95926", "#199E70", "#C98500", "#D55181", "#008300", "#9085E9", "#E66767"]
+chartSequentialColors = ["#0D366B", "#184F95", "#256ABF", "#3987E5", "#5598E7", "#6DA7EC", "#86B6EF", "#9EC5F4", "#B7D3F6", "#CDE2FB"]
+chartDivergingColors = ["#0D366B", "#1C5CAB", "#3987E5", "#86B6EF", "#CDE2FB", "#FAD6D2", "#EA9A93", "#D75852", "#9E3431", "#621B1A"]
+
+[theme.dark.sidebar]
+backgroundColor = "#141413"
+secondaryBackgroundColor = "#242422"
+codeBackgroundColor = "#242422"
+textColor = "#E9E8E4"
+borderColor = "#35352F"
+primaryColor = "#C0506A"
