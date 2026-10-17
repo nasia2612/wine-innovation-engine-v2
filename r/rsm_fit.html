@@ -357,7 +357,8 @@ display: none;
 <h2>Load data</h2>
 <pre class="r"><code>library(rsm)</code></pre>
 <pre><code>## Warning: package &#39;rsm&#39; was built under R version 4.5.3</code></pre>
-<pre class="r"><code>design &lt;- read.csv(&quot;/home/nasia/wine-innovation-engine/results/phase3_doe/design_matrix.csv&quot;)
+<pre class="r"><code>repo &lt;- rprojroot::find_root(rprojroot::has_file(&quot;requirements.txt&quot;))
+design &lt;- read.csv(file.path(repo, &quot;results&quot;, &quot;phase3_doe&quot;, &quot;design_matrix.csv&quot;))
 head(design)</code></pre>
 <pre><code>##   x1 x2 x3 Ti Sub0  N0  ethanol        sugar     time conversion peak_rate
 ## 1 -1 -1  0 15  250 240 137.5000 1.700326e-07 369.6848  1.0000000 1.4011530
