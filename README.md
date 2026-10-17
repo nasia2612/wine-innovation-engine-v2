@@ -2,18 +2,42 @@
 
 *From fermentation physics to a reformulated bottle of white wine.*
 
-One product, followed the whole way down. The project simulates fermentation from first
-principles, optimises the process with design of experiments, predicts sensory quality from
-chemistry, filters out wines that could not legally or physically exist, and ends by searching
-for a better version of a real wine.
+A winemaker who wants a better bottle has two places to intervene: the process, which runs for
+a few weeks in a tank, and the chemistry, which can be nudged afterwards in the cellar. This
+project models both ends of that choice and asks which one actually moves quality.
 
-Every layer refers to the same object. The ODE model and the quality model are not two
-unrelated demos. The second picks up where the first leaves off.
+Six models answer it, each one handing its output to the next. A fermentation twin built from
+kinetics. A thermal check on whether a tank is really one vessel. A designed experiment over
+the process. A quality model learned from 3,961 real wines. A feasibility filter that throws
+out chemistries which could not legally or physically exist. And a constrained search for a
+better version of a wine that already does.
 
-## Run it
+## What it found
 
-Everything is driven from one Streamlit app, and a fresh clone has what it needs. No notebooks
-to run first, no MLflow store to rebuild.
+**Nitrogen runs out long before sugar does.** The twin exhausts assimilable nitrogen at roughly
+110 h with about 150 g/L of sugar still in the tank. Every stuck fermentation in the design
+space traces back to this, not to running out of substrate.
+
+**A tank is not one vessel.** Top and bottom differ by 2.3 °C, which moves the finish by about
+50 h while leaving final ethanol unchanged at roughly 121 g/L. The gradient costs time, not
+alcohol.
+
+**The process optimum is a direction, not a point.** Desirability peaks at the warm edge of the
+tested window rather than inside it, so the finding is that warmer is better up to 27 °C, with
+the caveat that the objective scores only time, rate and conversion.
+
+**Quality is not linear in chemistry.** Tree models beat a linear baseline by well beyond fold
+to fold noise, and the deployed Random Forest reaches R² 0.398 on held-out wines. That ceiling
+is the dataset, not the tuning: a panel's median score is mostly driven by things 11 lab
+measurements do not capture.
+
+**And the conclusion the whole chain exists to reach:** given a real wine, an optimiser allowed
+to change anything buys 1.74 quality points, almost all of it by raising alcohol from 9.1 % to
+12.3 %. Restricted to what a cellar can actually adjust after fermentation, the same search
+gains 0.02, which is nothing. Alcohol is an outcome, not a lever. The place to intervene is the
+ferment, which is where Phase 1 started.
+
+## Try it
 
 ```bash
 python -m venv venv && source venv/bin/activate
@@ -21,7 +45,12 @@ pip install -r requirements.txt
 streamlit run app/streamlit_app.py
 ```
 
-## The arc
+The app is the front end for all six models: move the starting conditions of a ferment and
+watch the ODEs re-solve, warm or cool a tank, test a process setting against the full
+simulator, attribute a single wine's score with SHAP, edit a chemistry until the feasibility
+layers accept it, and run the reformulation search under either scenario.
+
+## The chain
 
 | Phase | Question it answers | Where |
 |---|---|---|
@@ -32,8 +61,9 @@ streamlit run app/streamlit_app.py
 | **5** | Which chemistries are even possible? | `src/modeling/constraints.py` |
 | **6** | How do we move a real wine toward a better score? | `src/modeling/reformulate.py` |
 
-Phases 1 to 3 are mechanistic, meaning the equations are written down. Phases 4 to 6 are data
-driven, learned from 3,961 real wines. Phase 5 is the hinge that keeps the second half honest.
+The first three phases are written as equations. The last three are learned from data. Phase 5
+is the join between them, and it is what stops the second half proposing wine that cannot
+exist.
 
 ## Phase 1. The fermentation twin
 
@@ -49,8 +79,8 @@ dE/dt  = β·X + MNT·X                  # ethanol production
 
 ![Phase 1, fermentation digital twin](results/figures/fermentation_simulation_kd_prime_dependant_1.png)
 
-The nitrogen panel carries the result. Nitrogen hits zero at roughly 110 h while about 150 g/L
-of sugar is still in the tank, and that single fact drives the rest of the project.
+The nitrogen panel carries the result. Nitrogen reaches zero at roughly 110 h while about
+150 g/L of sugar is still in the tank.
 
 Sugar is not the limiting nutrient. Grape must carries 150 to 300 g/L of it, which is plenty.
 What runs out is yeast assimilable nitrogen. Viable biomass peaks exactly when nitrogen is
@@ -60,8 +90,8 @@ A fermentation gets stuck here in two ways: nitrogen below about 80 mg/L, or a t
 enough that thermal death takes over, which happens sharply above 25 °C.
 
 The parameters are checked against Coleman et al. (2007) Dataset 2. The model predicts a
-maximum viable biomass of 3.59 g/L where the paper reports 3.5 g/L, a deviation of about 2.6 %.
-They hold up under nitrogen limitation, which is the regime that matters.
+maximum viable biomass of 3.59 g/L where the paper reports 3.5 g/L, a deviation of about 2.6 %,
+and they hold up under nitrogen limitation, which is the regime that matters.
 
 ## Phase 2. Is the tank well mixed?
 
@@ -96,11 +126,8 @@ polynomials in R and combined with Derringer Suich desirability functions.
 |---|---|---|---|---|---|---|
 | 27 °C | 267.7 g/L | 320.3 mg/L | 104.1 h | 3.81 g/L/h | 0.983 | **0.987** |
 
-Two results deserve stating plainly rather than burying in the table.
-
-The optimum sits on a boundary rather than in a basin. Coded temperature lands exactly at its
-upper bound, so the reading is that warmer is better inside the tested window, not that 27 °C
-is optimal.
+Coded temperature lands exactly on its upper bound, so the optimum sits on a boundary rather
+than in a basin. Warmer is better inside the tested window; 27 °C is not a peak.
 
 The desirability function also has no aroma term. It scores time, rate and conversion, all of
 which are process economics, while the sensory literature puts better aromatics in white wine
@@ -173,34 +200,22 @@ Two scenarios on the same wine, number 536, currently predicted at 5.14.
 
 The gap between those two rows is the finding. Let the optimiser change anything and it buys
 1.74 points, almost all of it by raising alcohol from 9.1 % to 12.3 %. Restrict it to what a
-winemaker can adjust after fermentation and the gain collapses to 0.02, which is nothing.
+winemaker can adjust after fermentation and the gain collapses to 0.02.
 
 That is not a failure of the optimiser but the answer itself. Quality in this dataset is mostly
 decided by alcohol and density, and those are set at harvest and during fermentation, not in
-the cellar. Alcohol is an outcome, not a lever.
+the cellar.
 
 Which closes the loop back to Phase 1. If alcohol is what matters and alcohol is set during
 fermentation, then the lever is the process, which is exactly what Phase 1 simulates and
 Phase 3 optimises.
 
-## The app
-
-`app/streamlit_app.py` is the front end for all six phases, one page each, plus an overview
-carrying the headline numbers. The notebooks show the work; the app shows the result.
-
-Its pages move the fermentation inputs and re-solve the ODEs live, change the tank geometry and
-cooling, explore the fitted response surfaces and test any point against the full simulator,
-attribute single wines with SHAP, accept or reject an edited chemistry against the four layers,
-and set the two reformulation scenarios side by side.
-
-Every page names where its numbers came from, and every table downloads as CSV. Theme and chart
-palettes live in `.streamlit/config.toml`, dark mode included.
-
 ## Also in here
 
-Two layers sit outside the main spine. Notebook 07 does metabolomics with PCA, PLS-DA,
-permutation testing and VIP scores. Notebook 08 builds a knowledge graph linking process
-parameters to chemistry to sensory outcome.
+Two layers sit outside the main spine. Notebook 07 runs metabolomics on a public ¹H-NMR and
+GC-TOF study of seventeen white wines, with PCA, PLS-DA, permutation testing and VIP scores.
+Notebook 08 builds a knowledge graph linking process parameters to chemistry to sensory
+outcome.
 
 ## What this does not do
 
@@ -228,12 +243,13 @@ src/process/      simulator.py, spatial.py, doe.py          (Phases 1 to 3)
 src/modeling/     constraints.py, reformulate.py            (Phases 5 and 6)
 r/                rsm_fit.Rmd, desirability_optimize.R      (Phase 3 statistics)
                   install_packages.R, the R side of requirements.txt
-notebooks/        01 to 08, one per phase
+notebooks/        the work behind each phase
 scripts/          run_phase6_batch.py, export_phase4_artifacts.py
 tests/            pytest suite, run with pytest -q
 results/          figures, tables, and the committed inputs the app runs on
 reports/          executed notebooks exported for reading
 data/raw/         UCI white wine quality dataset
+data/processed/   NMR and GC-TOF metabolomics summary (notebook 07)
 ```
 
 ## Reproducing
@@ -265,6 +281,16 @@ Re-run the export after retraining:
 ```bash
 venv/bin/python scripts/export_phase4_artifacts.py
 ```
+
+## Data
+
+The quality model is trained on the UCI white wine quality dataset (Cortez et al., 2009),
+4,898 Portuguese *vinho verde* wines with 11 physico-chemical measurements and a sensory score.
+
+The metabolomics notebook uses a public study of seventeen white wines analysed by both ¹H-NMR
+and GC-TOF, carried out in the Viticulture & Enology Department at UC Davis and released
+through the Metabolomics Workbench (experiment 421340, *Vitis vinifera*). The repository holds
+only the summary export the notebook reads.
 
 ## References
 
