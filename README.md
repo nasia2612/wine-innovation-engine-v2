@@ -2,7 +2,7 @@
 
 *From fermentation physics to a reformulated bottle of white wine.*
 
-**[Open the live app](https://wine-innovation-engine-v2-pepie6aqsswrtshttltv7u.streamlit.app/)** — six models, driven from the browser, nothing to install.
+**[Open the live app](https://wine-innovation-engine-v2-pepie6aqsswrtshttltv7u.streamlit.app/)** 
 
 A winemaker who wants a better bottle has two places to intervene: the process, which runs for
 a few weeks in a tank, and the chemistry, which can be nudged afterwards in the cellar. This
