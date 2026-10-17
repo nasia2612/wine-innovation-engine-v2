@@ -2,6 +2,8 @@
 
 *From fermentation physics to a reformulated bottle of white wine.*
 
+**[Open the live app](https://wine-innovation-engine-v2-pepie6aqsswrtshttltv7u.streamlit.app/)** — six models, driven from the browser, nothing to install.
+
 A winemaker who wants a better bottle has two places to intervene: the process, which runs for
 a few weeks in a tank, and the chemistry, which can be nudged afterwards in the cellar. This
 project models both ends of that choice and asks which one actually moves quality.
@@ -39,13 +41,15 @@ ferment, which is where Phase 1 started.
 
 ## Try it
 
+The app is live at **[wine-innovation-engine-v2-pepie6aqsswrtshttltv7u.streamlit.app](https://wine-innovation-engine-v2-pepie6aqsswrtshttltv7u.streamlit.app/)**, or run it locally:
+
 ```bash
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 streamlit run app/streamlit_app.py
 ```
 
-The app is the front end for all six models: move the starting conditions of a ferment and
+It is the front end for all six models: move the starting conditions of a ferment and
 watch the ODEs re-solve, warm or cool a tank, test a process setting against the full
 simulator, attribute a single wine's score with SHAP, edit a chemistry until the feasibility
 layers accept it, and run the reformulation search under either scenario.
