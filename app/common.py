@@ -13,7 +13,6 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-import mlflow  # noqa: E402
 import pandas as pd  # noqa: E402
 import streamlit as st  # noqa: E402
 
@@ -95,6 +94,8 @@ def list_searched_wines() -> list[int]:
     if export:
         return list(export["complete_wines"])
 
+    import mlflow
+
     mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB}")
     client = mlflow.MlflowClient()
     exp = client.get_experiment_by_name("phase6_reformulation")
@@ -140,6 +141,8 @@ def load_saved_reformulation(wine_index: int, scenario: str):
             "run_id": saved["run_id"],
         }
 
+    import mlflow
+
     mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB}")
     client = mlflow.MlflowClient()
     exp = client.get_experiment_by_name("phase6_reformulation")
@@ -180,6 +183,8 @@ def load_phase6():
     MLflow when the export is missing.
     """
     if not EXPORT_DIR.exists():
+        import mlflow
+
         mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB}")
     model = load_quality_model()
     artifacts = load_constraints(run_id=PHASE4_RUN_ID)

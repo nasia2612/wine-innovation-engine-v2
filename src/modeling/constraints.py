@@ -3,9 +3,11 @@ import warnings
 
 import numpy as np
 
-from mlflow.tracking import MlflowClient
 from pathlib import Path
-import mlflow
+
+# mlflow is imported inside the functions that need it. It costs ~160 MB and ~1.7 s to
+# import, and it is only ever the fallback: the committed export under results/ is what
+# the app actually reads, so a deployed instance never pays for it.
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 # Committed copies of everything the app needs from Phase 4, written by
@@ -16,9 +18,10 @@ CONSTRAINT_NAMES = ("bounds", "mahal", "density_band", "legal")
 
 
 def load_artifacts(run_id, client=None):
-    client = (
-        client or MlflowClient()
-    )  # if you dont provide a client, create one,if you do provide a client, use that one
+    if client is None:  # if you dont provide a client, create one
+        from mlflow.tracking import MlflowClient
+
+        client = MlflowClient()
     # dependency injection : the function is not responsible for creating the client, it just uses it. This makes the function more testable and flexible.
     out = {}
     for name in ["bounds", "mahal", "density_band", "legal"]:
@@ -70,6 +73,8 @@ def load_quality_model(model_uri="models:/wine_quality_rf/1", export_dir=EXPORT_
     """
     path = export_dir / "wine_quality_rf.joblib"
     if not path.exists():
+        import mlflow.sklearn
+
         return mlflow.sklearn.load_model(model_uri)
 
     import joblib
@@ -134,6 +139,8 @@ def check(x, bounds, mahal, density_band, legal):
 
 
 def setup_mlflow():
+    import mlflow
+
     repo = Path(__file__).resolve().parents[2]
     db = repo / "notebooks" / "mlflow.db"
     assert db.exists(), f"tracking DB not found at {db}"
