@@ -95,8 +95,8 @@ with st.container(horizontal=True):
     )
 
 st.warning(
-    "**Read this optimum as a direction, not a setpoint.** Temperature sits exactly at the top "
-    "of the design range (coded +1), so the honest statement is *warmer is better inside this "
+    "**This optimum is a direction, not a setpoint.** Temperature sits exactly at the top "
+    "of the design range (coded +1), so what the design supports is *warmer is better inside this "
     "window*, not *27 °C is optimal*. The desirability function also carries no aroma term, and "
     "cooler fermentations are generally better for white-wine aroma retention.",
     icon=":material/warning:",

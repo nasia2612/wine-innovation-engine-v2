@@ -218,7 +218,7 @@ quality has already been fixed.
 
 st.caption(
     "These are saved results from MLflow experiment `phase6_reformulation`, the same runs the "
-    "README quotes. Read them as directional: the quality model is trained on correlations "
+    "README quotes, and they are directional: the quality model is trained on correlations "
     "between chemistry and score, so a predicted gain assumes those relationships still hold "
     "when the chemistry is deliberately moved."
 )

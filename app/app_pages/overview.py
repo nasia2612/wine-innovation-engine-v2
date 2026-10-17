@@ -22,11 +22,10 @@ from common import (  # noqa: E402
 
 st.markdown(f"**{TAGLINE}.**")
 st.markdown(
-    "One product — white wine — followed through the computational chain behind it: simulate the "
-    "fermentation, test the assumption that a tank is well mixed, optimise the process, predict "
-    "sensory quality from lab chemistry, filter out wines that could not legally or physically "
-    "exist, then search for a better version of a real wine. Each stage is a separate model, and "
-    "each one is auditable on its own page."
+    "Six models, one bottle. Simulate a fermentation, test whether a tank is really one vessel, "
+    "optimise the process, predict sensory quality from lab chemistry, rule out wines that could "
+    "not legally or physically exist, then search for a better version of a wine that already "
+    "does. Every page is something to try: move the inputs and the models re-run on your numbers."
 )
 
 with st.container(horizontal=True):
@@ -124,11 +123,12 @@ left, right = st.columns([3, 2])
 with left.container(border=True):
     st.markdown(
         """
-Three limits are worth stating before anyone acts on a number here.
+Three limits shape every number on these pages.
 
 - **The quality model explains about 40 % of the variance** in human sensory scores, and that is
   close to the ceiling of this dataset rather than a tuning failure. Most of what a panel
-  responds to is not in 11 lab measurements. Read predicted scores as a ranking signal.
+  responds to is not in 11 lab measurements. Predicted scores rank wines; they do not promise
+  points.
 - **The model is trained on correlation, not intervention.** A predicted gain assumes the
   chemistry–quality relationship still holds when you deliberately move the chemistry. The
   feasibility layers keep the search inside the region where that assumption is least unsafe.

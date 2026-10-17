@@ -57,7 +57,8 @@ st.markdown(
     "tested: the tank is cut into horizontal layers and heat moves between them. Fermentation "
     "releases heat everywhere, the cooling jacket holds the base at the coolant temperature, and "
     "the open top loses almost nothing — so the tank stratifies into a warm top and a cold base. "
-    "The question this page answers is whether that gradient changes the wine."
+    "Set the vessel and the cooling in the sidebar; the test below is whether that gradient "
+    "changes the wine."
 )
 
 with st.sidebar:
@@ -247,7 +248,7 @@ for col, y, label in (
         )
 
 st.caption(
-    "Typical reading: the gradient shifts the timing, not the destination. Both layers end at "
+    "The gradient shifts the timing, not the destination. Both layers end at "
     "about the same ethanol, but the warm top finishes earlier. This is 1D conduction with an "
     "effective diffusivity, not full CFD — it establishes whether the gradient matters, it does "
     "not resolve the flow field."

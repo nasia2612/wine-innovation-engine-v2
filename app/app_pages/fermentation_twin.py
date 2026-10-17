@@ -14,9 +14,9 @@ from common import download_csv, provenance  # noqa: E402
 from src.process.simulator import params, run_simulation  # noqa: E402
 
 st.markdown(
-    "A five-equation kinetic model of a white-wine fermentation: viable and total biomass, sugar, "
-    "assimilable nitrogen and ethanol, integrated as a system of ODEs. Change the starting "
-    "conditions in the sidebar and the simulation reruns."
+    "Set up a ferment and watch it run. Temperature, sugar and nitrogen are yours to choose in "
+    "the sidebar, and five coupled ODEs re-solve on every change: viable and total biomass, "
+    "sugar, assimilable nitrogen and ethanol."
 )
 
 
@@ -43,8 +43,8 @@ with st.sidebar:
     S0 = st.slider("Initial sugar S₀ (g/L)", 150.0, 300.0, float(params["S0"]), 5.0)
     N0 = st.slider("Initial nitrogen N₀ (mg/L)", 50.0, 400.0, float(params["N0"]), 10.0)
     st.caption(
-        "Defaults are the white-wine preset from the simulator. Below roughly 80 mg/L of "
-        "nitrogen the ferment tends to stall."
+        "Defaults are a standard white-wine must. Take nitrogen below about 80 mg/L and the "
+        "ferment tends to stall, which is worth trying at least once."
     )
 
 traj = simulate(T, S0, N0)

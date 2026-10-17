@@ -130,8 +130,8 @@ with st.container(border=True):
 
 st.subheader("Explain a single wine", icon=":material/troubleshoot:")
 st.markdown(
-    "This is the part that matters to a winemaker: not which measurement matters on average, but "
-    "why *this* wine scored what it scored."
+    "Not which measurement matters on average, but why *this* wine scored what it scored. Pick a "
+    "wine and take its prediction apart."
 )
 row = st.number_input(
     f"Test-set row (0 to {len(X) - 1})", 0, len(X) - 1, 0, help="Held-out wines only."
